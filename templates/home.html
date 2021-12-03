@@ -12,26 +12,33 @@ home | todu
                 <h1 class="text-center display-4">Todo</h1>
             </div>
             <div class="col-md-12">
-                <form method="POST">
+                <form method="POST" novalidate>
+                    {% csrf_token %}
                     {{ form|crispy }}
                     <input type="submit" class="btn btn-dark btn-block" value="Submit"/>
                 </form>
             </div>
             <div class="col-md-12 mt-3">
+
                 <div class="todo-list text-center">
+                    {% for todu in todus %}
                     <div class="todo-content border border-dark p-2 mb-2 d-flex justify-content-between">
                         <div>
-                            <span class="lead">Lorem ipsum dolor sit amet.</span>
+                            <span class="lead">{{todu.title}}</span>
                         </div>
                         <div>
-                            <a href="update" class="btn btn-warning">Update</a>
-                            <form action="#" method="POST" class="d-inline-block">
+                            <a href="{% url 'update' todu.id %}" class="btn btn-warning">Update</a>
+                            <form action="{% url 'delete' todu.id %}" method="POST" class="d-inline-block">
+                                {% csrf_token %}
                                 <input type="submit" class="btn btn-danger" value="Delete"/>
                             </form>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
+
             </div>
+
         </div>
     </div>
 
